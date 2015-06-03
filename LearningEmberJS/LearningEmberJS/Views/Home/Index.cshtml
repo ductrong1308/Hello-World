@@ -1,13 +1,93 @@
 ﻿
-<script type="text/x-handlebars">
-    <h1>Welcome to EmberJS!</h1>
-    <p>{{model.message}}</p>
-    {{outlet}}
+<script type="text/x-handlebars" data-template-name="application">
+    <div class="row center">
+        <h1>My first demo!</h1>
+        {{outlet}}
+    </div>
+
 </script>
 
-<script type="text/x-handlebars"  data-template-name="home">
-    <p>{{model.message}}</p>
-    <p>Current time is: {{secondComputedProperty}}</p>
-    <p>Test: {{test}}</p>
+<script type="text/x-handlebars" data-template-name="home">
+
+    <div>
+        <ul>
+            <li>{{#link-to 'page1'}}Go to Page 1{{/link-to}}</li>
+            <li>{{#link-to 'page2'}}Go to Page 2{{/link-to}}</li>
+        </ul>
+    </div>
+
+
+    <h3>Task Info</h3>
+    <ul>
+        {{#each item in tasks}}
+        <li>{{item}}</li>
+        {{/each}}
+    </ul>
+
+    <div style="margin:15px;">
+        @*insert-newline="newTask" -> event when ENTER == action="newTask"*@ 
+        @*focus-out="newTask" -> event when focus out*@ 
+
+        {{input value=newTask action="newTask"  placeholder="Type in a new task"}}
+        <button {{action "newTask"}}>Add Task</button>
+    </div>
+
+    <div class="col-sm-4">
+        <table class="table-hover table-striped table-bordered col-sm-12">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Task Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each tasks as |task index|}}
+                <tr>
+                    <td>{{indexBase1 index}}</td>
+                    <td>{{task}}</td>
+                    <td>
+                        <button {{action "deleteItem" task}}>Delete</button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm-4">
+        <table class="table-hover table-striped table-bordered col-sm-12">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Task Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each tasks itemController="testIndex"}}
+                <tr>
+                    <td>{{taskNumber}}</td>
+                    <td>{{model}}</td>
+                    <td>
+                        <button {{action "deleteTask" model}}>Delete</button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="page1">
+    <h1>This is page 1!</h1>
+    <button {{action "gotoHome"}}>Home Page</button>
+    <button {{action "gotoPage2"}}>Go to Page 2</button>
+</script>
+
+<script type="text/x-handlebars" data-template-name="page2">
+    <h1>This is page 2!</h1>
+    <button {{action "gotoHome" }}>Home Page</button>
+    <button {{action "gotoPage1"}}>Go to Page 1</button>
 </script>
 

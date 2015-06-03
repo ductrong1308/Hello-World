@@ -19,7 +19,7 @@ namespace LearningEmberJS.App_Start
             bundles.Add(new ScriptBundle("~/Scripts/js").Include(
                 "~/Scripts/jquery-2.1.1.js",
                 "~/Scripts/bootstrap.js",
-                "~/Scripts/handlebars.js",
+                //"~/Scripts/handlebars.js",
                 "~/Scripts/Ember-1.12.0/ember-template-compiler.js",
                 "~/Scripts/Ember-1.12.0/ember.js",
                 "~/Scripts/app/app.js"

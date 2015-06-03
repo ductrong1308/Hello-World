@@ -7,9 +7,15 @@ var applicationModule = function (EmberApp) {
 
     var me = {};
     me.initialize = function () {
-        EmberApp = Ember.Application.create();
+    	EmberApp = Ember.Application.create({
+    		//rootElement: "#myApp"
+    	});
         EmberApp.Router.map(function () {
-            this.route('home', { path: '/' });
+        	this.route('home', { path: '/' });
+
+        	this.route('page1', { path: '/page1' });
+        	this.route('page2', { path: '/page2' });
+
             this.route('team', { path: '/team/:team_id' });
         });
 
@@ -25,31 +31,81 @@ var applicationModule = function (EmberApp) {
 
         EmberApp.HomeRoute = Ember.Route.extend({
             model: function () {
-                return { message: 'Home' };
+                return { message: 'Home'};
             }
         });
 
         EmberApp.HomeController = Ember.Controller.extend({
-            now: new Date(),
-            firstComputedProperty: Ember.computed('now', function() {
-            	return this.get('now');
-            }),
-            secondComputedProperty: function () {
-                return this.get('now');
-            }.property('now'),
-            thirdComputedProperty: Ember.computed({
-            	get: function () {
-                    return new Date();
-                }
-            }),
-            test: function () {
-            	var abc = this.get('model');
-            	debugger;
-            	return abc.message;
-            }.property('model', 'now')
+        	now: new Date(),
+        	newTask: '',
+        	firstComputedProperty: Ember.computed('now', function () {
+        		return this.get('now');
+        	}),
+        	secondComputedProperty: function () {
+        		return this.get('now');
+        	}.property('now'),
+        	thirdComputedProperty: Ember.computed({
+        		get: function () {
+        			return new Date();
+        		}
+        	}),
+        	test: function () {
+        		var model = this.get('model');
+        		return model.message;
+        	}.property('model'),
+        	tasks: Ember.A(['Task 1', 'Task 2', 'Task 3']),
+        	actions: {
+        		deleteItem: function (task) {
+        			this.get('tasks').removeObject(task);
+        		},
+        		newTask: function () {
+        			var newTask = this.get('newTask');
+        			this.get('tasks').pushObject(newTask);
+        			this.set('newTask', '');
+        		}
+        	}
         });
 
+        EmberApp.Page1Controller = Ember.Controller.extend({
+        	actions: {
+        		gotoHome: function () {
+        			this.transitionToRoute('/');
+        		},
+        		gotoPage2: function () {
+        			this.transitionToRoute('page2');
+        		}
+        	}
+        });
 
+        EmberApp.Page2Controller = Ember.Controller.extend({
+        	actions: {
+        		gotoHome: function () {
+        			this.transitionToRoute('/');
+        		},
+        		gotoPage1: function () {
+        			this.transitionToRoute('page1');
+        		}
+        	}
+        });
+
+        EmberApp.TestIndexController = Ember.Controller.extend({
+        	taskNumber: Ember.computed('parentController.tasks.@each', {
+        		get: function () {
+        			var index = this.get('parentController.tasks').indexOf(this.get('model'));
+        			return index + 1;
+        		}
+        	}),
+        	actions: {
+        		deleteTask: function (taskToDelete) {
+        			this.get('parentController.tasks').removeObject(taskToDelete);
+        		}
+        	}
+        });
+
+		// NOTE: registerBoundHelper vs registerHelper
+        Ember.Handlebars.registerBoundHelper("indexBase1", function (value, options) {
+        	return value + 1;
+        });
     };
 
     me.simpleEmberObjectProperty = function () {
