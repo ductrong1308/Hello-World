@@ -1,0 +1,66 @@
+﻿<div>
+    <div class="modal-header">
+        <h3 class="modal-title">Edit Customer Information</h3>
+    </div>
+    <div class="modal-body form-horizontal">
+        <div class="form-group">
+            <label for="firstName" class="col-sm-4 control-label">{{"FirstName"|translate}}</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="firstName" ng-model="editingcustomer.firstName">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName" class="col-sm-4 control-label">{{"LastName"|translate}}</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="lastName" ng-model="editingcustomer.lastName">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="age" class="col-sm-4 control-label">{{"Age"|translate}}</label>
+            <div class="col-sm-8">
+                <input type="number" class="form-control" id="age" ng-model="editingcustomer.age">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="dob" class="col-sm-4 control-label">{{"DOB"|translate}}</label>
+            <div class="col-sm-8">
+                <p class="input-group">
+                    <input class="form-control" datepicker-popup="{{format}}"
+                           ng-model="selectedDOB" is-open="dobOpened" ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openDOBDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="joinDate" class="col-sm-4 control-label">{{"JoinDate"|translate}}</label>
+            <div class="col-sm-8">
+                <p class="input-group">
+                    <input class="form-control" datepicker-popup="{{format}}"
+                           ng-model="selectedJoinDate" is-open="joinDateOpened" ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openJoinDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="personalInformation" class="col-sm-4 control-label">{{"PersonalInformation"|translate}}</label>
+            <div class="col-sm-8">
+                <textarea style="resize:vertical;" class="form-control" id="personalInformation" ng-model="editingcustomer.personalInformation"></textarea>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">{{"OK" | translate}}</button>
+        <button class="btn btn-warning" ng-click="cancel()">{{"Cancel"|translate}}</button>
+    </div>
+</div>

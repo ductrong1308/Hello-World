@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html data-ng-app="providerPayment">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/vendors/css")
+    @Styles.Render("~/Content/aswig-web/less")
+</head>
+<body>
+
+    <div id="mydiv" data-loading>
+        <img src="~/Content/aswig-web/images/ajax-loader.gif" class="ajax-loader" width="40" height="40"/>
+    </div>
+
+    @RenderBody()
+
+    @Scripts.Render("~/Script/vendors/js")
+    @Scripts.Render("~/Script/aswig-web/js")
+</body>
+</html>
