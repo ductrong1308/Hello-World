@@ -1,14 +1,26 @@
-﻿'use strict';
+﻿/// <reference path="../Ember-1.12.0/ember.js" />
+'use strict';
 
 var applicationModule = function (EmberApp) {
     if (EmberApp == 'undefined' || !EmberApp) {
         EmberApp = {};
     };
 
+    var devs = [
+		{ login: "robconery", name: "Rob Conery" },
+		{ login: "shanselman", name: "Scott Hanselman" },
+		{ login: "tomdale", name: "Tom Dale" },
+		{ login: "wycats", name: "Yehuda Katz" },
+		{ login: "jongalloway", name: "Jon Galloway" },
+		{ login: "haacked", name: "Phil Haack" },
+		{ login: "ductrong1308", name: "Trong Mac" }
+    ];
+
     var me = {};
     me.initialize = function () {
     	EmberApp = Ember.Application.create({
     		//rootElement: "#myApp"
+			LOG_TRANSITIONS: true
     	});
         EmberApp.Router.map(function () {
         	this.route('home', { path: '/' });
@@ -122,7 +134,6 @@ var applicationModule = function (EmberApp) {
         	return value + 1;
         });
     };
-
     me.simpleEmberObjectProperty = function () {
 		// Declare a class - UpperCase
     	var Person = Ember.Object.extend({
@@ -151,7 +162,6 @@ var applicationModule = function (EmberApp) {
     	anotherOne.setProperties({ name: 'Rooney', age: 29 });
     	anotherOne.say();
     };
-
     me.emberObjectWithComputedAndBinding = function () {
 
 		// Computed let you declare function as property.
@@ -207,14 +217,45 @@ var applicationModule = function (EmberApp) {
     	console.log('TestCount After Changed ' + testObjectWithOutComputed.get('taskCount'));
     };
 
-	
+    me.githubApp = function () {
+    	EmberApp = Ember.Application.create({
+			LOG_TRANSITIONS: true
+    	});
+
+    	EmberApp.Router.map(function () {
+    		this.resource('index', {path:'/'})
+    		this.resource('profile', { path: 'profile/:selectedUser' }, function () {
+    			this.route('index', { path: 'index' });
+    		});
+    	});
+
+    	EmberApp.IndexRoute = Ember.Route.extend({
+    		model: function () {
+				return devs;
+    		}
+    	});
+
+    	EmberApp.ProfileRoute = Ember.Route.extend({
+    		model: function (params) {
+    			return Ember.$.getJSON("https://api.github.com/users/" + params.selectedUser);
+    		}
+    	});
+
+    	//EmberApp.ProfileIndexRoute = Ember.Route.extend({
+    	//	model: function () {
+    	//		return this.modelFor('profile');
+    	//	}
+    	//});
+    };
 
     return me;
 
 }(window.applicationModule = window.applicationModule, {});
 
 $(document).ready(function () {
-	applicationModule.initialize();
+	//applicationModule.initialize();
 	//applicationModule.simpleEmberObjectProperty();
 	//applicationModule.emberObjectWithComputedAndBinding();
+
+	applicationModule.githubApp();
 });

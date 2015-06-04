@@ -1,94 +1,55 @@
 ﻿
 <script type="text/x-handlebars" data-template-name="application">
     <div class="row center">
-        <h1>My first demo!</h1>
+        <h1>Github Namshub</h1>
+        <hr />
         {{outlet}}
     </div>
-
 </script>
 
-<script type="text/x-handlebars" data-template-name="home">
-
-    <p>{{userLogin.login}}</p>
-    <div>
-        <ul>
-            <li>{{#link-to 'page1'}}Go to Page 1{{/link-to}}</li>
-            <li>{{#link-to 'page2'}}Go to Page 2{{/link-to}}</li>
-        </ul>
-    </div>
-
-
-    <h3>Task Info</h3>
+<script type="text/x-handlebars" data-template-name="index">
+    <p>This is the Github explorer for all of our favorite developers</p>
     <ul>
-        {{#each item in tasks}}
-        <li>{{item}}</li>
+        {{#each model as |user|}}
+        <li>{{#link-to 'profile' user.login}}{{user.name}}{{/link-to}}</li>
         {{/each}}
     </ul>
+</script>
 
-    <div style="margin:15px;">
-        @*insert-newline="newTask" -> event when ENTER == action="newTask"*@ 
-        @*focus-out="newTask" -> event when focus out*@ 
-
-        {{input value=newTask action="newTask"  placeholder="Type in a new task"}}
-        <button {{action "newTask"}}>Add Task</button>
-    </div>
-
-    <div class="col-sm-4">
-        <table class="table-hover table-striped table-bordered col-sm-12">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Task Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each tasks as |task index|}}
-                <tr>
-                    <td>{{indexBase1 index}}</td>
-                    <td>{{task}}</td>
-                    <td>
-                        <button {{action "deleteItem" task}}>Delete</button>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="col-sm-4">
-        <table class="table-hover table-striped table-bordered col-sm-12">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Task Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each tasks itemController="testIndex"}}
-                <tr>
-                    <td>{{taskNumber}}</td>
-                    <td>{{model}}</td>
-                    <td>
-                        <button {{action "deleteTask" model}}>Delete</button>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
+<script type="text/x-handlebars" data-template-name="profile">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="well">
+                <p class="text-center">
+                    {{#link-to 'profile' model.login}}<img src={{model.avatar_url}} style="width:140px" />{{/link-to}}
+                </p>
+                <h4>{{#link-to 'profile' model}}{{model.name}}{{/link-to}}</h4>
+                <p>
+                    {{model.company}}<br />
+                    {{model.location}}<br />
+                    {{model.email}}<br />
+                </p>
+                <hr />
+                <table class="table table-striped">
+                    <tr><td>Followers:</td><td>{{model.followers}}</td></tr>
+                    <tr><td>Reopsitories: </td><td>{{model.public_repos}}</td></tr>
+                    <tr><td>Gists: </td><td>{{model.public_gists}}</td></tr>
+                </table>
+                <p>
+                    {{#link-to "index"}}Back{{/link-to}}
+                </p>
+            </div>
+        </div>
+        <div class="col-md-8">
+            {{outlet}}
+        </div>
     </div>
 </script>
 
-<script type="text/x-handlebars" data-template-name="page1">
-    <h1>This is page 1!</h1>
-    <button {{action "gotoHome"}}>Home Page</button>
-    <button {{action "gotoPage2"}}>Go to Page 2</button>
+<script type="text/x-handlebars" data-template-name="profile/index">
+    <h1>{{model.name}}'s Github</h1>
+    <hr />
+    <ol class="breadcrumb">
+        <li>Repositories</li>
+    </ol>
 </script>
-
-<script type="text/x-handlebars" data-template-name="page2">
-    <h1>This is page 2!</h1>
-    <button {{action "gotoHome" }}>Home Page</button>
-    <button {{action "gotoPage1"}}>Go to Page 1</button>
-</script>
-
