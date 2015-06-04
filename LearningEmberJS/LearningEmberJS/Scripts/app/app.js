@@ -30,12 +30,14 @@ var applicationModule = function (EmberApp) {
         });
 
         EmberApp.HomeRoute = Ember.Route.extend({
-            model: function () {
-                return { message: 'Home'};
+        	model: function () {
+        		return Ember.$.getJSON("https://api.github.com/users/ductrong1308");
+        		//return { message: 'Home' };
             }
         });
 
         EmberApp.HomeController = Ember.Controller.extend({
+        	queryUserData: Ember.$.getJSON("https://api.github.com/users/ductrong1308"),
         	now: new Date(),
         	newTask: '',
         	firstComputedProperty: Ember.computed('now', function () {
@@ -63,7 +65,20 @@ var applicationModule = function (EmberApp) {
         			this.get('tasks').pushObject(newTask);
         			this.set('newTask', '');
         		}
-        	}
+        	},
+        	userLogin: function () {
+        		//var returnedObject = Ember.Object.create({
+        		//	userData: {}
+        		//});
+
+        		var returnedObject = {};
+
+        		var abc = this.get('queryUserData').then(function (response) {
+        			returnedObject = response;
+        		}, function (responseFail) { });
+
+        		return returnedObject;
+        	}.property('queryUserData')
         });
 
         EmberApp.Page1Controller = Ember.Controller.extend({
