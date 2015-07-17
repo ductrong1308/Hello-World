@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html data-ng-app="omega">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omega Home!</title>
+    @Styles.Render("~/Content/vendors/css")
+    @Styles.Render("~/Content/omega/less")
+</head>
+<body>
+
+    <div id="mydiv" data-loading>
+        <img src="~/Content/omega/images/ajax-loader.gif" class="ajax-loader" width="40" height="40"/>
+    </div>
+
+    @RenderBody()
+
+    @Scripts.Render("~/Script/vendors/js")
+    @Scripts.Render("~/Script/omega/js")
+</body>
+</html>
